@@ -43,20 +43,15 @@ def sign_in(request):
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-    
             user = models.User.objects.get(email=email)
             user = auth.authenticate(username=user.username, password=password)
-            
-            print(user)
             if user is not None and user.is_active:
                 auth.login(request, user)
                 return redirect(f'/profile/{user.id}/')
-            else:
-                #login fail
-                return render(request,"accounts/login.html",{'form':form,'error_message':'密碼不正確'})
     else:
         form = LoginForm()
-    return render(request,"accounts/login.html",{'form':form})
+
+    return render(request, "accounts/login.html", {'form': form})
 
 @login_required(login_url='Login')
 def user_logout(request):
@@ -100,6 +95,7 @@ def forget_password(request):
                 success_message = '已經發送重設密碼資訊到您的信箱'
                 print(success_message)
                 for user in associated_users:
+                    print(user.email)
                     mailto = user.email
                     mailsubject = '動漫購物網 - 密碼重設通知'
                     mailcontent = f"""{user}您好,\n您的密碼需要重新設定,\n請點入此連結重設密碼 : http://127.0.0.1:8000/reset/{urlsafe_base64_encode(force_bytes(user.pk))}/{default_token_generator.make_token(user)}"""                              
