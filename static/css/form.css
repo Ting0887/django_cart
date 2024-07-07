@@ -36,3 +36,28 @@ input#password1, input#password2, input#phone, input#email, input#id_username{
 label.lastname, label.phone{
     padding-top: 13px;
 }
+
+.error {
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group input {
+    width: 15%;
+    padding: 5px;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 0.2em;
+}
+
+div.error{
+    padding-left: 10px;
+    display: inline-flex;
+    position: absolute;
+}

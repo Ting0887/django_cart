@@ -1,4 +1,5 @@
 from django.http.response import HttpResponseRedirect
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, render ,get_object_or_404
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -66,23 +67,24 @@ def user_logout(request):
 
 @login_required(login_url='Login')
 def change_password(request,pk):
-    form = PwchangeForm()
     user = get_object_or_404(models.User, pk=pk)
+    # 验证当前用户是否是待修改密码的用户
+    if request.user != user:
+        return HttpResponseForbidden("您沒有權限修改該使用者的密碼")
+    
     if request.method == 'POST':
-        form = PwchangeForm(request.POST)
+        form = PwchangeForm(user=request.user, data=request.POST)
         if form.is_valid():
-            password = form.cleaned_data['old_password']
-            username = user.username
-
-            user = auth.authenticate(username=username, password=password)
-            if user is not None and user.is_active:
-                new_password = form.cleaned_data['password2']
+            old_password = form.cleaned_data['old_password']
+            if user.check_password(old_password):
+                # 设置新密码
+                new_password = form.cleaned_data['password1']
                 user.set_password(new_password)
                 user.save()
-                return HttpResponseRedirect('/login/')
-            else:
-                return render(request,"accounts/pwd_change.html",{'form':form,'user':user,'message':'Old password is wrong,try again'})
-    return render(request,"accounts/pwd_change.html",{'form':form,'user':user})
+    else:
+        form = PwchangeForm(user=request.user)
+
+    return render(request, "accounts/pwd_change.html", {'form': form, 'user': user})
 
 def forget_password(request):
     #input email and notify customer reset password
@@ -112,6 +114,7 @@ def login_api(request):
     serializer = AuthTokenSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.validated_data['user']
+    print(user)
     _, token = AuthToken.objects.create(user)
     
     return Response({'user_info':

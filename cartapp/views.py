@@ -1,33 +1,13 @@
-from django.contrib.auth.hashers import check_password
-from django.core import paginator
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import redirect, render,HttpResponse,get_object_or_404
+from django.shortcuts import redirect, render
 from django.core.paginator import Paginator,Paginator,EmptyPage,PageNotAnInteger
-from django.http import HttpResponse
-from cartapp import models,send_email_user, forms
-from django.contrib.auth import authenticate, login, logout
+from cartapp import models,send_email_user
 from django.contrib.auth.decorators import login_required
-from django.contrib.sessions.models import Session
-from django.template.loader import render_to_string
-from django.urls import reverse
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.contrib.humanize.templatetags.humanize import intcomma
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
-from django.forms import modelformset_factory
 import pandas as pd
-
-orderlist = []
 
 # 首頁
 def index(request):
-    if 'cartlist' in request.session:
-        cartlist = request.session['cartlist']
-
     productall = models.ProductModel.objects.all()    
-    print(productall)
     # all products do pagination
     paginator = Paginator(productall,16)
     page_number = request.GET.get('page')
@@ -42,7 +22,6 @@ def index(request):
 
 def search_product(request):
     search = request.GET.get('q')
-    print('search keyword:',search)
     search_result = []
     
     search_result = models.ProductModel.objects.filter(prod_name__icontains=search)
@@ -62,7 +41,7 @@ def search_product(request):
         return render(request, 'index.html', {'search_products': search_products})
     
 def detail(request, prod_id=None):
-    product = models.ProductModel.objects.get(prod_id=prod_id)
+    models.ProductModel.objects.get(prod_id=prod_id)
     return render(request,"cart/detail.html",locals())
 
 @login_required(login_url='Login')

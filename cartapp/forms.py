@@ -140,6 +140,17 @@ class PwchangeForm(forms.Form):
     old_password = forms.CharField(label="舊密碼",widget=forms.PasswordInput)
     password1 = forms.CharField(label="新密碼",widget=forms.PasswordInput)
     password2 = forms.CharField(label="密碼確認",widget=forms.PasswordInput)
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(PwchangeForm, self).__init__(*args, **kwargs)
+    
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get('old_password')
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError("舊密碼不正確")
+        return old_password
+
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')
         if len(password1) < 6:
@@ -147,10 +158,14 @@ class PwchangeForm(forms.Form):
         elif len(password1) > 20:
             raise forms.ValidationError("你的密碼太長")
         return password1
-    
-    def clean_password2(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
-        if password1 != password2:
-            raise forms.ValidationError("密碼不匹配")
-        return password2
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        password2 = cleaned_data.get('password2')
+
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError("密碼不匹配")
+        
+        return cleaned_data
