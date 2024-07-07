@@ -1,0 +1,7 @@
+.success_message{
+    text-align: center;
+}
+
+.success_message p{
+    line-height : 5px;
+}

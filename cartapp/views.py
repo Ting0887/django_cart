@@ -68,10 +68,13 @@ def detail(request, prod_id=None):
 @login_required(login_url='Login')
 def cart(request):
     order = models.OrderModel.objects.filter(user=request.user, status='cart').first()
+    print(order)
     if order:    
         order_items = models.OrderItem.objects.filter(order=order)
-  
-        grandtotal = sum(item.product.prod_price * item.quantity for item in order_items)
+        if not order_items:
+            return render(request, 'cart/cart_empty.html', {"context":"你的購物車是空的"})
+        
+        grandtotal = sum(int(item.product.prod_price) * int(item.quantity) for item in order_items)
 
         context = {
             'order': order,
@@ -102,7 +105,6 @@ def cart(request):
             return render(request, 'cart/cartorder.html',{'order_list':order_list,'grandtotal':grandtotal})
         else:
             return render(request, 'cart/cart.html', context)
-
     else:
         return render(request, 'cart/cart_empty.html', {"context":"你的購物車是空的"})
     
@@ -111,24 +113,21 @@ def cart(request):
 def empty_cart(request):
     try:
         order = models.OrderModel.objects.get(user=request.user, status='cart')
-        order.orderitem_set.all().delete()  # 删除所有订单项
-        order.delete()  # 删除订单
+        order.orderitem_set.all().delete()  # 删除所有訂單
+        order.delete()  
     except models.OrderModel.DoesNotExist:
-        pass  # 如果购物车订单不存在，则什么也不做
+        pass 
     
-    return redirect('Cart')  # 重定向到购物车页面
+    return redirect('Cart')
 
 @login_required(login_url='Login')
 def remove_from_cart(request, productid):
-    try:
-        order = models.OrderModel.objects.get(user=request.user, status='cart')
-        product = models.ProductModel.objects.get(prod_id=productid)
-        order_item = models.OrderItem.objects.get(order=order, product=product)
-        order_item.delete()  # 删除指定的订单项
-    except (models.OrderModel.DoesNotExist, models.ProductModel.DoesNotExist, models.OrderItem.DoesNotExist):
-        pass
-    
-    return redirect('Cart')  # 重定向到购物车页面
+    order = models.OrderModel.objects.get(user=request.user, status='cart')
+    product = models.ProductModel.objects.get(prod_id=productid)
+    order_item = models.OrderItem.objects.get(order=order, product=product)
+    order_item.delete()  # 删除指定的購買項目
+
+    return redirect('Cart')
 
 @login_required(login_url='Login')
 def addtocart(request, ctype=None, productid=None):
@@ -176,15 +175,23 @@ def cartorder(request):
         order.grandtotal = grandtotal
         order.save()
     
-        email_to_customer(email, order.id, username)
+        email_to_customer(email, order.id, order_items, username, grandtotal)
         email_to_seller(username, order_items, grandtotal)
         
         return render(request, 'cart/cartok.html')   
     return render(request, 'cart/cartorder.html', context)
 
-def email_to_customer(mailto, orderid, username):
+def email_to_customer(mailto, orderid, order_items, username, grandtotal):
     mailsubject = "動漫購物網 - 訂單通知"
-    mailcontent = "感謝您的光臨，您已經成功完成訂購程序\n您的訂單編號為:" + str(orderid) + "\n，訂單內容已經寄到您的信箱"
+    mailcontent = f"感謝{username}的光臨，您已經成功完成訂購程序\n您的訂單編號為:{orderid}\n"
+    
+    for item in order_items:
+        prod_name = item.product.prod_name
+        prod_quantity = item.quantity
+        prod_price = item.product.prod_price
+        subtotoal = int(prod_quantity)*prod_price
+        mailcontent += prod_name + ' ' + '數量×'+str(prod_quantity) + f' 小計:{subtotoal}元' + '\n'
+    mailcontent += f'總共{grandtotal}元(包含運費60元)'
     send_email_user.send_simple_message(mailto, mailsubject, mailcontent)
     
 def email_to_seller(username, order_items, grandtotal):
@@ -197,5 +204,5 @@ def email_to_seller(username, order_items, grandtotal):
         prod_price = item.product.prod_price
         subtotoal = int(prod_quantity)*prod_price
         mailcontent_toseller += prod_name + ' ' + '數量×'+str(prod_quantity) + f' 小計:{subtotoal}元' + '\n'
-    mailcontent_toseller += f'總共{grandtotal}元'
+    mailcontent_toseller += f'總共{grandtotal}元(包含運費60元)'
     send_email_user.send_simple_message('Lutingyang@gmail.com', orderuser+"的訂單", mailcontent_toseller)

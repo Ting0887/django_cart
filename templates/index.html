@@ -78,9 +78,19 @@
                             <li><a class="page-numbers" href="?page={{ products.previous_page_number }}">⬅</a></li>
                         {% endif %}
                         {% for num in products.paginator.page_range %}
-                            {% if products.num == num %}
+                            {% if products.number == num %}
                                 <li class="page-numbers current"><a href="#!">{{ num }}</a></li>
-                            {% else %}
+                            {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                                <li><a class="page-numbers" href="?page={{ num }}">{{ num }}</a></li>
+                            {% elif num == 1 %}
+                                <li><a class="page-numbers" href="?page={{ num }}">{{ num }}</a></li>
+                                {% if products.number > 4 %}
+                                    <li class="page-numbers"><a href="#!">...</a></li>
+                                {% endif %}
+                            {% elif num == products.paginator.num_pages %}
+                                {% if products.number < products.paginator.num_pages|add:'-3' %}
+                                    <li class="page-numbers"><a href="#!">...</a></li>
+                                {% endif %}
                                 <li><a class="page-numbers" href="?page={{ num }}">{{ num }}</a></li>
                             {% endif %}
                         {% endfor %}
@@ -98,15 +108,21 @@
                             <li><a class="page-numbers" href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">⬅</a></li>
                         {% endif %}
                         {% for num in search_products.paginator.page_range %}
-                            {% if posts.num == num %}
-                                <li class="page-numbers current">
-                                    <a href="#!">{{ num }}</a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a class="page-numbers" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
-                                </li>
+                            {% if search_products.number == num %}
+                                <li class="page-numbers current"><a href="#!">{{ num }}</a></li>
+                            {% elif num > search_products.number|add:'-3' and num < search_products.number|add:'3' %}
+                                <li><a class="page-numbers" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+                            {% elif num == 1 %}
+                                <li><a class="page-numbers" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+                            {% if search_products.number > 4 %}
+                                <li class="page-numbers"><a href="#!">...</a></li>
                             {% endif %}
+                            {% elif num == search_products.paginator.num_pages %}
+                                {% if search_products.number < search_products.paginator.num_pages|add:'-3' %}
+                                    <li class="page-numbers"><a href="#!">...</a></li>
+                                {% endif %}
+                                <li><a class="page-numbers" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a></li>
+                                {% endif %}
                         {% endfor %}
                         {% if search_products.has_next %}
                             <li>

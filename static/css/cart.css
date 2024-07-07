@@ -64,8 +64,23 @@ ul.products{
     justify-content: flex-start;
 }
 
-.product-name{
+.product-name, .product-quantity{
     text-align: center;
+}
+
+img{
+    text-align: center;
+    position: relative;
+}
+
+.product-total{
+    text-align: left;
+
+}
+
+.grandtotal{
+    text-align: right;
+    padding-left: 38px;
 }
 
 .type-product {
@@ -87,3 +102,10 @@ ul.products{
     padding-right: 20px;
 }
 
+.your_cart{
+    padding-left: 20px;
+}
+
+.empty{
+    padding-left: 20px;
+}

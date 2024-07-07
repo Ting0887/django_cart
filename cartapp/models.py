@@ -21,6 +21,7 @@ class OrderModel(models.Model):
     STATUS_CHOICES = (
         ('cart', 'In Cart'),
         ('ordered', 'Ordered'),
+        ('cancelled', 'Cancelled'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.CharField(max_length=100,default='')
@@ -39,11 +40,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.prod_name} in Order #{self.order.id}"
-
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = OrderModel
-        fields = ['address', 'phone']
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

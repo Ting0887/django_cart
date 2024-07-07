@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 <link rel="stylesheet" href="{% static 'css/form.css' %}">
 <link rel="stylesheet" href="{% static 'css/table.css' %}">
+<link rel="stylesheet" href="{% static 'css/message.css' %}">
 {% include 'header.html' %}
 <div class="billorder-form">
 	<form action="{% url 'CartOrder' %}" enctype="multipart/form-data" id="checkout" method="POST">
@@ -9,23 +10,23 @@
 		<h3>帳單資訊</h3>
 		<ul>
 			<li>
-				<label for="billing_first_name">姓</label>
+				<label for="billing_first_name">姓:</label>
 				<input required="required" id="billing_first_name" name="billing_first_name" placeholder="" type="text" value="">
 			</li>
 			<li>
-				<label class="" for="billing_last_name">名字</label>
+				<label class="" for="billing_last_name">名字:</label>
 				<input required="required" id="billing_last_name" name="billing_last_name" placeholder="" type="text" value="">
 			</li>
 			<li>
-				<label class="" for="billing_address">地址</label>
+				<label class="" for="billing_address">地址:</label>
 				<input required="required" class="input-text" id="billing_address" name="billing_address" placeholder="台北市信義區......" type="text" value="">
 			</li>
 			<li>
-				<label class="" for="billing_phone">手機</label>
+				<label class="" for="billing_phone">手機:</label>
 				<input required="required" class="input-text" id="billing_phone" name='billing_phone' placeholder="" type="tel" value="">
 			</li>
 			<li>
-				<label class="" for="billing_email">電子郵件</label>
+				<label class="" for="billing_email">電子郵件:</label>
 				<input required="required" class="input-text" id="billing_email" name="billing_email" placeholder="" type="email" value="">
 			</li>
 		</ul>
@@ -34,9 +35,9 @@
 			<table class="order-table">
 				<thead>
 					<tr>
-						<th class="product-name">商品</th>
-						<th class="product-quantity">數量</th>
-						<th class="product-total">小計</th>
+						<th class="product-name-head" style="padding-left: 100px;">商品</th>
+						<th class="product-quantity-head">數量</th>
+						<th class="product-total-head">小計</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -49,17 +50,17 @@
 							{{ item.prod_quantity }}
 						</td>
 						<td class="product-total">
-							{{ item.prod_subtotal }}
+							${{ item.prod_subtotal }}
 						</td>
 					</tr>
 					{% endfor %}
 					<tr class="shipping-totals">
-						<th>運費</th>
-						<td>$60</td>
+						<th style="padding-left: 100px;">運費</th>
+						<td style="text-align:center; padding-left:45px" colspan="2">$60</td>
 					</tr>
 					<tr class="order-total">
-						<th>Total</th>
-						<td>
+						<th style="padding-left: 100px;">總共</th>
+						<td colspan="2">
 							<span class="grandtotal" name="grandtotal">
 								${{ grandtotal }}
 							</span>

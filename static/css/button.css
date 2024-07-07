@@ -17,11 +17,38 @@
     display: block;
   }
 
- ul, li.menu-item a{
+ ul.dropdown-menu, li.menu-item a{
     padding: 0;
     margin: 0;
   }
 
   .dropdown a{
     font-size: 20px;
+  }
+
+  button.remove-btn, button.checkout{
+    width: 60px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+.empty_cart-btn{
+  width: 100px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+div.checkout{
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  button.continue_shopping-btn{
+    width: 100px;
+    height: 40px;
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 35px;
   }

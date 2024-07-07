@@ -16,6 +16,7 @@
                                     </span>
                                 </p>
                             <form class="cart" action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
                                     <button type="submit" name="add-to-cart" value="{{ product.prod_id }}" class="single_add_to_cart_button">
                                         <a href="/addtocart/add/{{ product.prod_id }}/">加入購物車</a>
                                     </button>    

@@ -2,11 +2,14 @@
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 <link rel="stylesheet" href="{% static 'css/form.css' %}">
 <link rel="stylesheet" href="{% static 'css/table.css' %}">
+<link rel="stylesheet" href="{% static 'css/message.css' %}">
 {% include 'header.html' %}
+
 <title>結帳成功!</title>
 <div class="container">
     <div class="success_message">
-        <h1>感謝你的購買!</h1>
+        <p>感謝你的購買!</p>
+        <p>訂單內容已經寄到您的信箱</p>
         <a href="{% url 'Home' %}">回首頁</a>
     </div>
 </div>

@@ -1,24 +1,17 @@
 
-.profile{
-    justify-content: content; 
-    align-items: center; 
-    padding-left: 35%;
-    display: flex;
-    width: 300px;
-}
-
 .profile-update{
     text-align: center;
     margin-left: auto;
 }
 
-.update-btn{
-    text-align: center;
-}
-
 h2{
     text-align: center;
 }
+.profile ul{
+    text-align: left;
+    padding-left: 40%;
+}
+
 
 input{
     padding-top: 3px;

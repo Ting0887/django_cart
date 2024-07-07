@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 import re
-from cartapp import models
 
 def email_check(email):
     pattern = re.compile(r"\"?([-a-zA-Z0-9.'?{}]+@\w+\.\w+)\"?")
@@ -155,13 +154,3 @@ class PwchangeForm(forms.Form):
         if password1 != password2:
             raise forms.ValidationError("密碼不匹配")
         return password2
-
-
-class UpdateCartForm(forms.ModelForm):
-    class Meta:
-        model = models.OrderItem
-        fields = ['quantity']
-        widgets = {
-            'quantity': forms.NumberInput(attrs={'min': 1}),
-        }
-UpdateCartFormSet = forms.modelformset_factory(models.OrderItem, form=UpdateCartForm, extra=0)
