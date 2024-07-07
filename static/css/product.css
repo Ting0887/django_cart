@@ -1,0 +1,19 @@
+.col-md-6{
+    text-align: center;
+}
+
+.product-content{
+    word-wrap: break-word; /* 在單詞內換行 */
+    width: 65%;
+    display: inline-flex;
+}
+
+img{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.single_add_to_cart_button a{
+    text-decoration: none; /* 移除底線 */
+}

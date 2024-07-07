@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>密碼設定完成</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+
+<div class="logo_container">
+      <h1>
+          <a href="/index/" class="ql_logo">動漫購物網</a>
+      </h1>
+</div>
+
+<section class="finish-reset-pwd">
+    <h1>密碼設定完成</h1>
+    <div class="subtitle">
+        請重新登入你的帳號
+    </div>
+    <button>
+        <a href="{% url 'Login'%}">登入</a>
+    </button>
+</section>

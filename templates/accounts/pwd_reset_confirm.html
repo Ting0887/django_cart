@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重新設定密碼</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+
+<div class="logo_container">
+      <h1>
+          <a href="/index/" class="ql_logo">動漫購物網</a>
+      </h1>
+</div>
+<section class="reset-confirm-form">
+    <h3 class="pwd_reset">重設密碼</h3>
+    <div class="reset-pwd">
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" name="submit" class="resetpwd-btn-submit" value="Reset my password">
+        </form>
+    </div>
+</section>
+
+        

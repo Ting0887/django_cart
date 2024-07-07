@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入帳號</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+
+<div class="logo_container">
+      <h1>
+          <a href="/index/" class="ql_logo">動漫購物網</a>
+      </h1>
+</div>
+<section class="login-form">
+    <h3 class="login-account">登入帳號</h3>
+        <div class="u-login-form">
+            <form action="" method="POST">
+              {% csrf_token %}
+                {% for field in form %}
+                  <div class="error" style="color:red;">
+                      {{ field.errors }}
+                  </div>
+                {% endfor %}
+                  <div class="error" style="color:red;">
+                      {{ error_message }}
+                  </div>
+                  <div class="u-form-email">
+                      <label for="email" class="u-email">帳號:</label>
+                      {{ form.email }}
+                  </div>
+                  <div class="u-form-password">
+                      <label for="password" class="u-password">密碼:</label>
+                      {{ form.password }}
+                  </div>
+                {% if field.help_text %}
+                  <div class="alert alert-warning" style="color:red;padding-left: 30px;padding-bottom:10px">
+                      {{ field.help_text|safe }}
+                  </div>
+                {% endif %}
+                  <div class="u-form-submit">
+                      <button type="submit" class="login-btn-submit">登入<br>
+                  </div>
+            </form>
+        </div>
+            <a href="{% url 'Forget Password' %}" class="forget-password">忘記密碼?</a>
+            <a href="{% url 'Register' %}" class="register-account">註冊帳號</a>
+</section>

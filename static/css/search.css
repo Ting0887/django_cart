@@ -1,0 +1,16 @@
+a{
+text-decoration: none;
+color: #3D1101;
+}
+.wrap{
+max-width: 960px;
+height: auto;
+}
+
+.search{
+    padding-left: 0px;
+}
+
+.content{
+    margin: 0px;
+}

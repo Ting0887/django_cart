@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重新設定密碼</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+<div class="logo_container">
+    <h1>
+        <a href="/index/" class="ql_logo">動漫購物網</a>
+    </h1>
+</div>
+<div id="container" class="container">
+    <div class="password-change-form">
+        <h2>變更密碼</h2>
+        {% if message %}
+            {{ message }}
+        {% endif %}
+
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ul>
+                {% for field in form %}
+                {{ field.errors }}
+                <li>
+                    {{ field.label_tag }}{{ field }}
+                </li>
+                {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+        {% endfor %}
+            </ul>
+            <button type="submit" class="update-btn">確認</button>
+        </form>
+    </div>
+</div>
+</body>

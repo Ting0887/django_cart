@@ -1,0 +1,27 @@
+.dropdown{
+    position: relative;
+    display: inline-block;
+  }
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color:azure;
+    min-width: 100px;
+    padding: 10px 10px;
+    z-index: 1;
+    right: 0;
+  }
+  
+.dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+ ul, li.menu-item a{
+    padding: 0;
+    margin: 0;
+  }
+
+  .dropdown a{
+    font-size: 20px;
+  }

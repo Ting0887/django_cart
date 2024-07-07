@@ -1,0 +1,31 @@
+{% include 'header.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/product.css' %}">
+<div id="container" class="container">
+    <section id="main" role="main" class="row">
+        <div class="content_background">
+            <a href="/static/images/{{ product.prod_img }}" title="image2xxl (10)" data-width="870" data-height="1110">
+                <img width="50%" src="/static/images/{{ product.prod_img }}" class="attachment-shop" srcset="/static/images/{{ product.prod_img }}"></a>
+                    <div class="col-md-6">
+                        <div class="summary entry-summary">
+                            <h1 class="product_title entry-title">{{ product.prod_name }}</h1>
+                                <p class="price">
+                                    <span class="Price-amount">
+                                        <span class="Price-currencySymbol">$</span>
+                                        {{ product.prod_price }}
+                                    </span>
+                                </p>
+                            <form class="cart" action="" method="POST" enctype="multipart/form-data">
+                                    <button type="submit" name="add-to-cart" value="{{ product.prod_id }}" class="single_add_to_cart_button">
+                                        <a href="/addtocart/add/{{ product.prod_id }}/">加入購物車</a>
+                                    </button>    
+                            </form>        
+                            <div class="product-content">
+                                {{ product.prod_description }}
+                            </div>
+                        </div><!-- .summary -->   
+                    </div><!-- /col-md-6 -->
+                </div> 
+        </div><!-- /content_background -->
+    </section>  
+</div>

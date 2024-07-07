@@ -1,0 +1,89 @@
+#billing_first_name,#billing_last_name{
+    width:auto;
+}
+#billing_company{
+    width: 50%;
+}
+#billing_address_field{
+    width: 60%;
+}
+#billing_phone_field,#billing_email_field{
+    width: 20%;
+}
+
+.add_to_cart_wrap{
+    padding-top: 10px;
+}
+
+ul.page-numbers{
+    display: flex;
+    gap: 10px; /* 頁碼之間的間距 */
+}
+
+.product-pagination{
+    display: flex;
+    text-align:center;
+    justify-content: center; /* 置中對齊 */
+    padding: 20px;
+}
+
+.continue-shopping{
+    text-align: center;
+}
+
+.page-numbers li {
+    margin: 0;
+}
+
+.page-numbers a {
+    text-decoration: none; /* 移除默認的超鏈接下劃線 */
+    padding: 10px 15px;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.page-numbers a:hover {
+    background-color: #f1f1f1; /* 懸停時的背景色 */
+}
+
+li{
+    padding: 5px;
+}
+
+ul{
+    list-style-type:none;
+}
+
+ul.products{
+    display: flex;
+    flex-wrap: wrap; /* 允許換行 */
+    gap: 10px;
+    padding: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: flex-start;
+}
+
+.product-name{
+    text-align: center;
+}
+
+.type-product {
+    flex: 1 1 calc(20% - 20px);
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.login_btn_wrap, .logout_btn_wrap{
+    text-align: right;
+
+}
+
+.login-btn{
+    padding-right: 20px;
+}
+

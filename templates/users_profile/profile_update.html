@@ -1,0 +1,27 @@
+{% include 'header.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<title>更新個人資料</title>
+<div class="container">
+    <h2>更新個人資料</h2>
+    <div class="profile-update">
+        <ul>
+            <li>使用者名稱: {{ user.username }}</li>
+            <li>電子郵件: {{ user.email }}</li>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <ul>
+                    {% for field in form %}
+                    <li>
+                        {{ field.label_tag }}{{ field }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br>
+                <input class="update-btn" type="submit" value="更新">
+            </form>
+        </ul>
+    </div>
+</div>
+

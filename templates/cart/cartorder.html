@@ -1,0 +1,73 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+{% include 'header.html' %}
+<div class="billorder-form">
+	<form action="" enctype="multipart/form-data" id="checkout" method="POST">
+		{% csrf_token %}
+		{{ formset.management_form }}
+		<h3>帳單資訊</h3>
+		<ul>
+			<li>
+				<label for="billing_first_name">姓</label>
+				<input required="required" id="billing_first_name" name="billing_first_name" placeholder="" type="text" value="">
+			</li>
+			<li>
+				<label class="" for="billing_last_name">名字</label>
+				<input required="required" id="billing_last_name" name="billing_last_name" placeholder="" type="text" value="">
+			</li>
+			<li>
+				<label class="" for="billing_address">地址</label>
+				<input required="required" class="input-text" id="billing_address_" name="billing_address" placeholder="台北市信義區......" type="text" value="">
+			</li>
+			<li>
+				<label class="" for="billing_phone">手機</label>
+				<input required="required" class="input-text" id="billing_phone" name='billing_phone' placeholder="" type="tel" value="">
+			</li>
+			<li>
+				<label class="" for="billing_email">電子郵件</label>
+				<input required="required" class="input-text" id="billing_email" name="billing_email" placeholder="" type="email" value="">
+			</li>
+		</ul>
+			
+		<h3>你的訂單</h3>
+			<table class="order-table">
+				<thead>
+					<tr>
+						<th class="product-name">商品</th>
+						<th class="product-quantity">數量</th>
+						<th class="product-total">小計</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item1, item2 in list %}
+					<tr class="cart_item">
+						<td class="product-name">
+							{{ item1.product.prod_name }}
+						</td>
+						<td class="product-quantity">
+							{{ item2.quantity }}
+						</td>
+						<td class="product-total">
+							{{ item1.product.prod_price }}
+						</td>
+					</tr>
+					{% endfor %}
+					<tr class="shipping-totals">
+						<th>運費</th>
+						<td>$60</td>
+					</tr>
+					<tr class="order-total">
+						<th>Total</th>
+						<td>
+							<span class="grandtotal" name="grandtotal">
+								${{ grandtotal }}
+							</span>
+						</td>
+					</tr>
+			</table>				
+			<button class="order-btn-submit" name="checkout_place_order" type="submit" value="Place order">提交</button>
+		</form>
+</div>
+

@@ -1,0 +1,20 @@
+{% include 'header.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<title>個人資料</title>
+<div class="container">
+    <h2>個人資料</h2>
+    <div class="profile">
+                    <ul>
+                        <li>使用者名稱: {{ user.username }}</li>
+                        <li>電子郵件: {{ user.email }}</li>
+                        <li>Telephone: {{ user.profile.phone }}</li>
+                            {% if user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'Profile Update' user.id %}" class="m1">編輯個人資料</a>
+                            </li>
+                            {% endif %}
+                    </ul>
+                </div>  
+    </div>
+</div>

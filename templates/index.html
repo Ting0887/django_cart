@@ -1,0 +1,121 @@
+{% include 'header.html' %}
+    <div id="container" class="container">
+    <section>
+        <form action="{% url 'Search' %}" method="GET">
+            <div class="wrap">
+                <div class="search">
+                <input class="search-bar" type="text" name=q id="search" size="50" placeholder="輸入商品名稱">
+                    <button class="search-btn" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="content">
+            <ul class="products">
+                <!--搜尋後的商品作分頁-->
+                {% for searched_product in search_products %}
+                <li class="type-product">
+                        <a href="/detail/{{ searched_product.prod_id }}" class="product_link"></a>
+                    <div class="product_content">
+                        <a href="/detail/{{ searched_product.prod_id }}" class="product_link"></a>
+                        <a class="product_wrap" href="/detail/{{ searched_product.prod_id }}">
+                            <img width="300" height="300" src="/static/images/{{ searched_product.prod_img }}" 
+                                class="product_thumbnail" alt="" srcset="/static/images/{{ searched_product.prod_img }}">
+                        </a>
+                        <div class="product_text">
+                            <h3>
+                                <a href="/detail/{{ searched_product.prod_id }}">{{ searched_product.prod_name }}</a>
+                            </h3>
+                            <span class="price">
+                                <span class="price_amount">
+                                    <span class="price-current">$</span>{{ searched_product.prod_price }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+                    <div class="None_Message">
+                        {{ message }}
+                    </div>
+            </ul>
+            <ul class="products">
+                <!--所有商品作分頁-->
+                {% for product in products %}
+                <li class="type-product">
+                        <a href="/detail/{{ product.prod_id }}" class="product_link"></a>
+                    <div class="product_content">
+                        <a href="/detail/{{ product.prod_id }}" class="product_link"></a>
+                    <div class="product_wrap">
+                        <a href="/detail/{{ product.prod_id }}" class="product_link"></a>
+                    <div class="product_content">
+                        <a href="/detail/{{ product.prod_id }}" class=product_link"></a>
+                        <a class="product_thumbnail_wrap" href="/detail/{{ product.prod_id }}">
+                            <img width="300" height="300" src="/static/images/{{ product.prod_img }}" 
+                                class="product_thumbnail" alt="" srcset="/static/images/{{ product.prod_img }}">         
+                        </a>
+                        <div class="product_text">
+                            <h3>
+                                <a href="/detail/{{ product.prod_id }}">{{ product.prod_name }}</a>
+                            </h3>
+                            <span class="price">
+                                <span class="price_amount">
+                                    <span class="price-current">$</span>{{ product.prod_price }}
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul> 
+                {% if products.has_other_pages %}
+                <br>
+                <nav class="product-pagination">
+                    <ul class="page-numbers">
+                        {% if products.has_previous %}
+                            <li><a class="page-numbers" href="?page={{ products.previous_page_number }}">⬅</a></li>
+                        {% endif %}
+                        {% for num in products.paginator.page_range %}
+                            {% if products.num == num %}
+                                <li class="page-numbers current"><a href="#!">{{ num }}</a></li>
+                            {% else %}
+                                <li><a class="page-numbers" href="?page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if products.has_next %}
+                            <li><a class="page-numbers" href="?page={{ products.next_page_number }}">➡</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+                <br>
+                {% if search_products.has_other_pages %}
+                <nav class="product-pagination">
+                    <ul class="page-numbers">
+                        {% if search_products.has_previous %}
+                            <li><a class="page-numbers" href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">⬅</a></li>
+                        {% endif %}
+                        {% for num in search_products.paginator.page_range %}
+                            {% if posts.num == num %}
+                                <li class="page-numbers current">
+                                    <a href="#!">{{ num }}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a class="page-numbers" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if search_products.has_next %}
+                            <li>
+                                <a class="page-numbers" href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">➡</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+    </section>  
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘記密碼</title>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+
+<div class="logo_container">
+      <h1>
+          <a href="/index/" class="ql_logo">動漫購物網</a>
+      </h1>
+</div>
+<section class="forgetpassword-form">
+    <h3 class="forget-password">忘記密碼</h3>
+    <div class="u-forgetpassword-form">
+        <form action="" method="POST" name="forget-pwd">
+        {% csrf_token %}
+                <label for="input-email" class="input-email">輸入電子郵件 : </label>
+                {{ form.email }}
+                <button type="submit" value="提交" class="fg-btn-submit">提交</button>
+        </form>
+        {% if form.errors %}
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li style="color: red;">{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if Message %}
+        <ul>
+            <li style="color: green;">{{ Message }}</li>
+        </ul>
+        {% endif %}
+    </div>
+</section>

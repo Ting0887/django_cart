@@ -1,0 +1,42 @@
+{% load static %}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- WP_Head -->
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/button.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<header id="header">
+    <div class="container">
+        <div class="row">
+                <div class="logo_container">
+                    <h1>
+                        <a href="/index/" class="ql_logo">動漫購物網</a>
+                    </h1>
+                </div>
+            {% if user.is_authenticated %}
+            <div class="logout_btn_wrap">
+                <div id="menu-item" class="dropdown">
+                    <a href="{% url 'Profile' request.user.id %}" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">
+                        {{ request.user.username }}
+                    </a>
+                    <div class="dropdown-content">
+                        <ul role="menu" class="dropdown-menu">
+                            <li id="logout" class="menu-item"><a title="Logout" href="{% url 'Logout' %}">登出</a></li>
+                            <li id="cart" class="menu-item"><a title="Cart" href="{% url 'Cart' %}">購物車</a></li>
+                            <li id="profile" class="menu-item"><a title="Profile" href="{% url 'Change Password' user.id %}">更新密碼</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="login_btn_wrap">
+                <a class="login-btn" href="{% url 'Login' %}" title="Login">登入</a>
+            </div>
+            {% endif %}
+        </div><!-- row-->
+    </div><!-- /container -->
+</header>

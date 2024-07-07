@@ -1,0 +1,38 @@
+.login-form, .register-form, .forgetpassword-form, .reset-confirm-form, .finish-reset-pwd, .password-change-form, .billorder-form{
+    text-align: center;
+}
+
+.u-password{
+    padding-top: 5px;
+}
+label.u-name, label.u-password, .u-form-remember, .forget-password, .register-account{
+    font-size: 20px;
+}
+
+label.u-email, label.u-password1, label.u-password2, label.u-phone{
+    font-size: 20px;
+}
+
+label.input-email{
+    font-size: 20px;
+}
+
+.login-btn-submit, .fg-btn-submit, .resetpwd-btn-submit, .register-btn-submit, .pwdchange-btn-submit, .update-btn, .order-btn-submit{
+    margin-top: 5px;
+    font-size: 16px;
+    font-weight:bold;
+}
+
+input#username, input#password{
+    width: 200px;
+    height: 25px;
+}
+
+input#password1, input#password2, input#phone, input#email, input#id_username{
+    width: 200px;
+    height: 25px;
+}
+
+label.lastname, label.phone{
+    padding-top: 13px;
+}
