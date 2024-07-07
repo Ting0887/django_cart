@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+{% include 'header.html' %}
+<title>結帳成功!</title>
+<div class="container">
+    <div class="success_message">
+        <h1>感謝你的購買!</h1>
+        <a href="{% url 'Home' %}">回首頁</a>
+    </div>
+</div>
+
+</html>

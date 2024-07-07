@@ -78,9 +78,31 @@ def cart(request):
             'order_items': order_items,
             'grandtotal': grandtotal,
         }
-        return render(request, 'cart/cart.html', context)
-    elif request.method == 'POST':
-        print('checkout')
+        # 準備去結帳
+        if request.method == 'POST':
+            order_list = []
+            grandtotal = 60
+            for item in order_items:
+                prod_id = item.product.prod_id
+                prod_name = item.product.prod_name
+                prod_quantity = request.POST.get(f'input-quantity-{item.product.prod_id}')
+                prod_subtotal = int(prod_quantity)*item.product.prod_price
+                
+                print('quantity:',prod_quantity)
+                print('subtotal:',prod_subtotal)
+                
+                print(prod_id)
+                q = models.OrderItem.objects.filter(product_id=prod_id).update(quantity=prod_quantity)
+                
+                grandtotal += prod_subtotal
+                order_list.append({'prod_name':prod_name,
+                                'prod_quantity':prod_quantity,
+                                'prod_subtotal':prod_subtotal})
+
+            return render(request, 'cart/cartorder.html',{'order_list':order_list,'grandtotal':grandtotal})
+        else:
+            return render(request, 'cart/cart.html', context)
+
     else:
         return render(request, 'cart/cart_empty.html', {"context":"你的購物車是空的"})
     
@@ -125,47 +147,55 @@ def addtocart(request, ctype=None, productid=None):
 
 @login_required(login_url='Login')
 def cartorder(request):
-    order = models.OrderModel.objects.get(user=request.user, status='cart')
-    order_items = models.OrderItem.objects.filter(order=order)
+    if request.method == 'POST':
+        order = models.OrderModel.objects.get(user=request.user, status='cart')
+        order_items = models.OrderItem.objects.filter(order=order)
 
 
-    grandtotal = sum(item.product.prod_price * item.quantity for item in order_items)
-    context = {
-        'order': order,
-        'order_item':order_items,
-        'grandtotal':grandtotal,
-    }
-   
+        grandtotal = sum(item.product.prod_price * item.quantity for item in order_items)+60
+        context = {
+            'order': order,
+            'order_item':order_items,
+            'grandtotal':grandtotal,
+        }
+        first_name = request.POST.get('billing_first_name')
+        last_name = request.POST.get('billing_last_name')
+        username = first_name + ' ' + last_name
+        
+        address = request.POST.get('billing_address')
+        phone = request.POST.get('billing_phone')
+        email = request.POST.get('billing_email')
+        
+        """
+        將填寫的個人資訊寫入資料表並更新訂單狀態(status=order)...
+        """
+        order.address = address
+        order.phone = phone
+        order.email = email
+        order.status = 'ordered'
+        order.grandtotal = grandtotal
+        order.save()
     
+        email_to_customer(email, order.id, username)
+        email_to_seller(username, order_items, grandtotal)
+        
+        return render(request, 'cart/cartok.html')   
     return render(request, 'cart/cartorder.html', context)
 
-
-    """ mailsubject = "動漫購物網 - 訂單通知"
-    mailcontent = "感謝您的光臨，您已經成功完成訂購程序\n您的訂單編號為:" + str(orderid)
+def email_to_customer(mailto, orderid, username):
+    mailsubject = "動漫購物網 - 訂單通知"
+    mailcontent = "感謝您的光臨，您已經成功完成訂購程序\n您的訂單編號為:" + str(orderid) + "\n，訂單內容已經寄到您的信箱"
     send_email_user.send_simple_message(mailto, mailsubject, mailcontent)
     
-    # send to seller
-    orderuser = firstname +' '+ lastname
+def email_to_seller(username, order_items, grandtotal):
+    orderuser = username
     mailcontent_toseller = orderuser + "提交了訂單，訂單內容如下:\n"
-    # order detail
-    for list in cartlist:
-        product_name = list[1]
-        quantity = list[4]
-        subtotoal = list[5]
-        mailcontent_toseller += product_name + ' ' + '數量×'+str(quantity) + f' 小計{subtotoal}元' + '\n'
+
+    for item in order_items:
+        prod_name = item.product.prod_name
+        prod_quantity = item.quantity
+        prod_price = item.product.prod_price
+        subtotoal = int(prod_quantity)*prod_price
+        mailcontent_toseller += prod_name + ' ' + '數量×'+str(prod_quantity) + f' 小計:{subtotoal}元' + '\n'
     mailcontent_toseller += f'總共{grandtotal}元'
-    send_email_user.send_simple_message('Lutingyang@gmail.com', orderuser+"的訂單", mailcontent_toseller)"""
-    
-    return render(request,'cart/cartorder.html',locals())
-
-@login_required(login_url='Login')
-def order_confirmation(request, order_id):
-    order = get_object_or_404(models.OrderModel, id=order_id, user=request.user)
-    order_items = models.OrderItem.objects.filter(order=order)
-
-    context = {
-        'order': order,
-        'order_items': order_items,
-    }
-    
-    return render(request, 'cart/order_confirmation.html', context)
+    send_email_user.send_simple_message('Lutingyang@gmail.com', orderuser+"的訂單", mailcontent_toseller)

@@ -4,7 +4,7 @@
 <script src="{% static 'js/calculate_price.js' %}"></script>
 <div class="container" id="container">
 	<h1 class="page-title">購物車</h1>
-		<form action="{% url 'CartOrder' %}" method="POST">
+		<form action="{% url 'Cart' %}" method="POST">
 			{% csrf_token %}
 			<table class="shop_table" cellpadding="5">
 				<thead>
@@ -37,7 +37,6 @@
 							<div class="quantity">
 								<input oninput="show_subtotal('{{ item.product.prod_price }}', '{{ item.product.prod_id }}')" size="15" 
 								class="input-quantity" id="input-quantity-{{ item.product.prod_id }}" type="number" value="1" name="input-quantity-{{ item.product.prod_id }}">
-								{{ item.quantity }}
 							</div>
 						</td>
 						<td class="product-subtotal" id="product_{{ item.product.prod_id }}" name="product_{{ item.product.prod_id }}">

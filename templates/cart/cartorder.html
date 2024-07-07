@@ -4,9 +4,8 @@
 <link rel="stylesheet" href="{% static 'css/table.css' %}">
 {% include 'header.html' %}
 <div class="billorder-form">
-	<form action="" enctype="multipart/form-data" id="checkout" method="POST">
+	<form action="{% url 'CartOrder' %}" enctype="multipart/form-data" id="checkout" method="POST">
 		{% csrf_token %}
-		{{ formset.management_form }}
 		<h3>帳單資訊</h3>
 		<ul>
 			<li>
@@ -19,7 +18,7 @@
 			</li>
 			<li>
 				<label class="" for="billing_address">地址</label>
-				<input required="required" class="input-text" id="billing_address_" name="billing_address" placeholder="台北市信義區......" type="text" value="">
+				<input required="required" class="input-text" id="billing_address" name="billing_address" placeholder="台北市信義區......" type="text" value="">
 			</li>
 			<li>
 				<label class="" for="billing_phone">手機</label>
@@ -41,16 +40,16 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for item1, item2 in list %}
+					{% for item in order_list %}
 					<tr class="cart_item">
 						<td class="product-name">
-							{{ item1.product.prod_name }}
+							{{ item.prod_name }}
 						</td>
 						<td class="product-quantity">
-							{{ item2.quantity }}
+							{{ item.prod_quantity }}
 						</td>
 						<td class="product-total">
-							{{ item1.product.prod_price }}
+							{{ item.prod_subtotal }}
 						</td>
 					</tr>
 					{% endfor %}
