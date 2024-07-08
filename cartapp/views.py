@@ -41,7 +41,7 @@ def search_product(request):
         return render(request, 'index.html', {'search_products': search_products})
     
 def detail(request, prod_id=None):
-    models.ProductModel.objects.get(prod_id=prod_id)
+    product = models.ProductModel.objects.get(prod_id=prod_id)
     return render(request,"cart/detail.html",locals())
 
 @login_required(login_url='Login')

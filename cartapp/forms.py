@@ -112,12 +112,12 @@ class PasswordForgetForm(forms.Form):
 
 class PasswordResetForm(forms.Form):
     password1 = forms.CharField(
-            label="New Password",
-            widget=forms.PasswordInput
+            label = "New Password",
+            widget = forms.PasswordInput(attrs={'id':'new-password1'})
             )
     password2 = forms.CharField(
             label="Confirm Password",
-            widget=forms.PasswordInput
+            widget = forms.PasswordInput(attrs={'id':'new-password2'})
     )
     def clean_password1(self):
         password1 = self.cleaned_data.get('password1')

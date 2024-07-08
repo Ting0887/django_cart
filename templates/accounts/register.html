@@ -25,29 +25,41 @@
               {% for field in form %}
                 {{ field.errors }}
               {% endfor %}
-                <div class="u-firstname">
-                    <label for="firstname" class="u-firstname">Fist Name</label>
+                <div class="form-group">
+                  <div class="form-input">
+                    <label for="firstname" class="firstname">姓:</label>
                     {{ form.firstname }}
+                  </div>
                 </div>
-                <div class="u-lastname">
-                  <label for="lastname" class="lastname">Last Name</label>
-                  {{ form.lastname }}
-              </div>
-                <div class="u-email">
-                    <label for="email" class="email">電子信箱</label>
+                <div class="form-group">
+                  <div class="form-input">
+                    <label for="lastname" class="lastname">名字:</label>
+                    {{ form.lastname }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-input">
+                    <label for="email" class="email">電子信箱:</label>
                     {{ form.email }}
                   </div>
-                <div class="u-phone">
-                    <label for="phone" class="phone">手機號碼</label>
-                    {{ form.phone }}
-                 </div>
-                <div class="u-password1">
-                    <label for="password1" class="password1">密碼</label>
-                    {{ form.password1 }}
                 </div>
-                <div class="u-password2">
-                    <label for="password2" class="password2">確認密碼</label>
+                <div class="form-group">
+                  <div class="form-input">
+                    <label for="phone" class="phone">手機號碼:</label>
+                    {{ form.phone }}
+                  </div>
+                 </div>
+                <div class="form-group">
+                  <div class="form-input">
+                    <label for="password1" class="password1">密碼:</label>
+                    {{ form.password1 }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-input">
+                    <label for="password2" class="password2">確認密碼:</label>
                     {{ form.password2 }}
+                  </div>
                 </div>
                 {% if message %}
                   <div class="alert alert-warning" style="color:red;padding-left: 25px;">
